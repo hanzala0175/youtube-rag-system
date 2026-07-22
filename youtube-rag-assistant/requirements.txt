@@ -1,0 +1,53 @@
+# ---------------------------------------------------------------------------
+# YouTube RAG Assistant — pinned, mutually-compatible dependency set
+# Verified against PyPI as of July 2026.
+#
+# NOTE on the LangChain ecosystem: as of mid-2026 LangChain went through a
+# major restructuring (v1.0) that moved most legacy chains/retrievers into a
+# new `langchain-classic` package and archived `langchain-community` (no new
+# releases, but still functional). The FAISS integration still lives in
+# `langchain-community` — `langchain-classic` only re-exports it via a
+# deprecated shim — so this project depends on `langchain-community`
+# directly for FAISS, while building the actual RAG chain with plain LCEL
+# runnables from `langchain-core` (which has the strongest backwards-compat
+# guarantees) instead of any legacy chain class. This combination avoids the
+# "class moved to another module" errors that plague older LangChain
+# tutorials.
+# ---------------------------------------------------------------------------
+
+# --- Web frameworks -----------------------------------------------------
+fastapi==0.136.1
+uvicorn[standard]==0.39.0
+python-multipart==0.0.20
+streamlit==1.51.0
+
+# --- Config / validation -------------------------------------------------
+pydantic==2.13.3
+pydantic-settings==2.14.2
+python-dotenv==1.2.2
+
+# --- HTTP client (frontend -> backend) -----------------------------------
+requests==2.32.5
+
+# --- LangChain core stack --------------------------------------------------
+langchain-core==1.4.8
+langchain-text-splitters==1.1.2
+langchain-community==0.4.2        # last release before archival; still the canonical home of FAISS integration
+
+# --- LLM provider (free tier) ---------------------------------------------
+langchain-groq==1.1.2
+groq==0.31.1
+
+# --- Embeddings (fully free, runs locally, no API key) --------------------
+langchain-huggingface[full]==1.2.2
+sentence-transformers==5.2.0
+transformers==5.0.0
+
+# --- Vector database --------------------------------------------------------
+faiss-cpu==1.9.0.post1
+
+# --- YouTube transcript retrieval -------------------------------------------
+youtube-transcript-api==1.2.4
+
+# --- Misc -------------------------------------------------------------------
+numpy<3,>=1.26
